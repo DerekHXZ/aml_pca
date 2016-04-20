@@ -87,6 +87,29 @@ X_train, X_test, y_train, y_test = train_test_split(
 n_components = 150
 
 print("Extracting the top %d eigenfaces from %d faces"
+      % (n_components, X.shape[0]))
+t0 = time()
+pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X)
+print("done in %0.3fs" % (time() - t0))
+
+eigenfaces = pca.components_.reshape((n_components, h, w))
+
+print("Projecting the input data on the eigenfaces orthonormal basis")
+t0 = time()
+X_pca = pca.transform(X)
+print("done in %0.3fs" % (time() - t0))
+
+print(pca.components_.shape)
+print(pca.components_)
+
+
+'''
+###############################################################################
+# Compute a PCA (eigenfaces) on the face dataset (treated as unlabeled
+# dataset): unsupervised feature extraction / dimensionality reduction
+n_components = 150
+
+print("Extracting the top %d eigenfaces from %d faces"
       % (n_components, X_train.shape[0]))
 t0 = time()
 pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X_train)
@@ -99,9 +122,6 @@ t0 = time()
 X_train_pca = pca.transform(X_train)
 X_test_pca = pca.transform(X_test)
 print("done in %0.3fs" % (time() - t0))
-
-print(pca.components_.shape)
-print(pca.components_)
 
 ###############################################################################
 # Train a KNN classification model
@@ -124,7 +144,7 @@ print("done in %0.3fs" % (time() - t0))
 print(classification_report(y_test, y_pred, target_names=target_names))
 print(confusion_matrix(y_test, y_pred, labels=range(n_classes)))
 
-'''
+
 ###############################################################################
 # Train a SVM classification model
 
