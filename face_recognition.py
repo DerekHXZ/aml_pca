@@ -100,6 +100,8 @@ X_train_pca = pca.transform(X_train)
 X_test_pca = pca.transform(X_test)
 print("done in %0.3fs" % (time() - t0))
 
+print(pca.components_.shape)
+print(pca.components_)
 
 ###############################################################################
 # Train a KNN classification model
@@ -147,7 +149,6 @@ print("done in %0.3fs" % (time() - t0))
 
 print(classification_report(y_test, y_pred, target_names=target_names))
 print(confusion_matrix(y_test, y_pred, labels=range(n_classes)))
-'''
 
 ###############################################################################
 # Qualitative evaluation of the predictions using matplotlib
@@ -182,3 +183,4 @@ eigenface_titles = ["eigenface %d" % i for i in range(eigenfaces.shape[0])]
 plot_gallery(eigenfaces, eigenface_titles, h, w)
 
 plt.show()
+'''
